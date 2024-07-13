@@ -1,4 +1,4 @@
-import {ActionGetResponse, ActionPostResponse, ActionPostRequest} from "@solana/actions"
+import {ActionGetResponse, ActionPostResponse, ActionPostRequest, ACTIONS_CORS_HEADERS} from "@solana/actions"
 
 export async function GET(request: Request) {
   const response: ActionGetResponse = {
@@ -9,13 +9,13 @@ export async function GET(request: Request) {
     error: {message: "This blink is not implemented yet!"}
   }
   
-  return Response.json(response);
+  return Response.json(response, {headers: ACTIONS_CORS_HEADERS});
 }
 
 export async function POST(request: Request){
   
-  const postRequest: ActionPostRequest = await request.json();
-  const userPubkey = postRequest.account;
+  const requestBody: ActionPostRequest = await request.json();
+  const userPubkey = requestBody.account;
   console.log(userPubkey);
 
   const response: ActionPostResponse = {
@@ -23,5 +23,5 @@ export async function POST(request: Request){
     message: "HELLO " + userPubkey,
   };
   
-  return Response.json(response);
+  return Response.json(response, {headers: ACTIONS_CORS_HEADERS});
 }
